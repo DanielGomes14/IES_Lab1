@@ -1,5 +1,8 @@
 package com.MyWeatherRadar;
 
+import com.MyWeatherRadar.ipma_client.City;
+import com.MyWeatherRadar.ipma_client.Cities;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -9,6 +12,8 @@ import com.MyWeatherRadar.ipma_client.IpmaService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Iterator;
 
 /**
  * demonstrates the use of the IPMA API for weather forecast
@@ -21,37 +26,49 @@ public class App {
      */
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void  main(String[] args ) {
 
-        /*
-        get a retrofit instance, loaded with the GSon lib to convert JSON into objects
-         */
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.ipma.pt/open-data/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public static void main(String[] args) {
+            String city = "Aveiro";
 
-        IpmaService service = retrofit.create(IpmaService.class);
-        Integer city = null;
-        if(args.length>0)city=Integer.parseInt(args[0]);
-        if(city ==  null) {
-            LOGGER.info("City ID was not specified.");
-            System.exit(1);
-        }
-        Call<IpmaCityForecast> callSync = service.getForecastForACity(city);
 
-        try {
-            Response<IpmaCityForecast> apiResponse = callSync.execute();
-            IpmaCityForecast forecast = apiResponse.body();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://api.ipma.pt/open-data/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-            if (forecast != null) {
-                LOGGER.info("Max temp for today: " + forecast.getData().listIterator().next().getTMax() + "Cº, " + forecast.getCountry());
-            } else {
+            IpmaService service = retrofit.create(IpmaService.class);
+            if (args.length > 0) city = args[0];
+            Call<Cities> callSyncCities = service.getCitiesCodes();
+            Integer cityCode = null;
+            try {
+                Response<Cities> apiResponse = callSyncCities.execute();
+                Cities cities = apiResponse.body();
+                Iterator<City> iter = cities.getData().listIterator();
+                while (iter.hasNext()) {
+                    City cityObj = iter.next();
+                    if (cityObj.getLocal().equals(city))
+                        cityCode = cityObj.getGlobalIdLocal();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (cityCode == null) {
+                LOGGER.info("Specified city does not exist!");
+                System.exit(1);
+            }
+
+            Call<IpmaCityForecast> callSync = service.getForecastForACity(cityCode);
+
+            try {
+                Response<IpmaCityForecast> apiResponse = callSync.execute();
+                IpmaCityForecast forecast = apiResponse.body();
+                LOGGER.info("Max temp for today: " + forecast.getData().listIterator().next().getTMax() + "Cº" + ", " + city);
+                //System.out.println( "Max temp for today: " + forecast.getData().listIterator().next().getTMax());
+            } catch (Exception ex) {
                 LOGGER.error("No results!");
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            System.exit(1);
         }
 
-    }
 }
