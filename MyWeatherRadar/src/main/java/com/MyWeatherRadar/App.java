@@ -7,19 +7,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import com.MyWeatherRadar.ipma_client.IpmaCityForecast;
 import com.MyWeatherRadar.ipma_client.IpmaService;
 
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * demonstrates the use of the IPMA API for weather forecast
  */
 public class App {
 
-    private static  int city = 1010500;
     /*
     loggers provide a better alternative to System.out.println
     https://rules.sonarsource.com/java/tag/bad-practice/RSPEC-106
      */
-    private static final Logger logger = Logger.getLogger(App.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static void  main(String[] args ) {
 
@@ -32,7 +32,12 @@ public class App {
                 .build();
 
         IpmaService service = retrofit.create(IpmaService.class);
+        Integer city = null;
         if(args.length>0)city=Integer.parseInt(args[0]);
+        if(city ==  null) {
+            LOGGER.info("City ID was not specified.");
+            System.exit(1);
+        }
         Call<IpmaCityForecast> callSync = service.getForecastForACity(city);
 
         try {
@@ -40,9 +45,9 @@ public class App {
             IpmaCityForecast forecast = apiResponse.body();
 
             if (forecast != null) {
-                logger.info("Max temp for today: " + forecast.getData().listIterator().next().getTMax() + "Cº, " + forecast.getCountry());
+                LOGGER.info("Max temp for today: " + forecast.getData().listIterator().next().getTMax() + "Cº, " + forecast.getCountry());
             } else {
-                logger.info( "No results!");
+                LOGGER.error("No results!");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
