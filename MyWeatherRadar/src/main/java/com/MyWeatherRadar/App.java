@@ -37,11 +37,13 @@ public class App {
                     .build();
 
             IpmaService service = retrofit.create(IpmaService.class);
+            //default city name is "Aveiro", can be changed using arguments
             if (args.length > 0) city = args[0];
-            Call<Cities> callSyncCities = service.getCitiesCodes();
+            Call<Cities> callSyncCodes = service.getCodes();
             Integer cityCode = null;
             try {
-                Response<Cities> apiResponse = callSyncCities.execute();
+                //Get Api Response and Iterate through all City Objects until we get the code for the city  we want(or the default one)
+                Response<Cities> apiResponse = callSyncCodes.execute();
                 Cities cities = apiResponse.body();
                 Iterator<City> iter = cities.getData().listIterator();
                 while (iter.hasNext()) {
@@ -52,14 +54,13 @@ public class App {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
+            //In case the city we asked for does not exist
             if (cityCode == null) {
                 LOGGER.info("Specified city does not exist!");
                 System.exit(1);
             }
-
+            //Same call used on Lab1.1
             Call<IpmaCityForecast> callSync = service.getForecastForACity(cityCode);
-
             try {
                 Response<IpmaCityForecast> apiResponse = callSync.execute();
                 IpmaCityForecast forecast = apiResponse.body();

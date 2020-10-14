@@ -10,7 +10,7 @@ public interface IpmaService {
 
     @GET("forecast/meteorology/cities/daily/{city_id}.json")
     Call<IpmaCityForecast> getForecastForACity(@Path("city_id") int cityId);
-
+    //This method will allow a call to get The Cities Codes and all it's information
     @GET("distrits-islands.json")
-    Call<Cities> getCitiesCodes();
+    Call<Cities> getCodes();
 }
