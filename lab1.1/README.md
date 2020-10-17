@@ -116,4 +116,4 @@
         Contudo é importante referir que por vezes há goals que nao precisam de estar associados a uma build phase (podem ser corridos através de command line)
 
 ## Qual a sequência de evocação dos Maven Goals?
-        Quando corremos uma Phase todos os goals associados a esta são executados em ordem, sequencialmente e de forma fixa
+Quando corremos uma Phase todos os goals associados a esta são executados em ordem, sequencialmente e de forma fixa

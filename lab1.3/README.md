@@ -98,7 +98,7 @@ Instalação do Docker :
 
 
 ## Qual a relevância do commando docker container ls --all?
-    Permite mostrar todos os containers docker criados, assim como os seu ID, data de criação, data de paragem do container, e nome associado. 
+Permite mostrar todos os containers docker criados, assim como os seu ID, data de criação, data de paragem do container, e nome associado. 
 
 ## Qual a relevância de configurar “volumes” quando se pretende preparar um container para servir uma base de dados?
-    Configurando volumes conseguimos fazer persistir os dados na DB, mesmo que apaguemos o container. Assim, permitimos que seja mais seguro fazer reboots do sistema, pois os dados irão se manter.
+Configurando volumes conseguimos fazer persistir os dados na DB, mesmo que apaguemos o container. Assim, permitimos que seja mais seguro fazer reboots do sistema, pois os dados irão se manter.
