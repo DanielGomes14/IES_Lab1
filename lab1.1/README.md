@@ -1,7 +1,7 @@
-Lab1.1 - Maven
+# Lab1.1 - Maven
 
 
-Instalação
+## Instalação
     Para poder instalar o  Maven, o primeiro requisito é ter o Java JDK, tal pode ser verificado correndo o seguinte comando:
         $java --version
 
@@ -18,7 +18,7 @@ Instalação
         7. $sudo source /etc/profile.d/maven.sh
         8. $mvn --version
 
-Maven in 5 Minutes:
+## Maven in 5 Minutes:
     Tutorial em  https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
 
     Criar um Projeto (my-app):
@@ -52,7 +52,7 @@ Maven in 5 Minutes:
 
 
 
-Preparar um novo projeto Maven(aplicação para consulta da Meteorologia - MyWeatherRadar):
+## Preparar um novo projeto Maven(aplicação para consulta da Meteorologia - MyWeatherRadar):
     Definir versão 11 do compilador no ficheiro pom.xml (https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-source-and-target.html): 
         <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -69,7 +69,7 @@ Preparar um novo projeto Maven(aplicação para consulta da Meteorologia - MyWea
 
 
 
-Maven Build LifeCycle
+## Maven Build LifeCycle
     http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
 
     "Although hardly a comprehensive list, these are the most common default lifecycle phases executed.
@@ -91,14 +91,14 @@ Maven Build LifeCycle
     
         This phase generates a site based upon information on the project's pom. You can look at the documentation generated under target/site."
 
-Maven Site:
+## Maven Site:
         Para gerar um site com a documentação do projeto, devemos correr o comando enunciado anteriormente:
             $mvn site
         Contudo, caso pretendamos adicionar documentação neste site acerca do código Java presente no projeto, dever-se-à seguir o tutorial no seguinte link:
             https://maven.apache.org/plugins/maven-javadoc-plugin/usage.html
 
 
-O que é um Maven Goal?
+## O que é um Maven Goal?
         Maven Goals - representam uma tarefa específica que contribui para a construção e gestão de um projeto, o que significa que uma Build Phase ( já referidas anteriormente neste documento ) é feita através de um conjunto de Maven Goals.
         Exemplo de Maven Goals e respetivas Build Phases à qual estão associados:
 
@@ -115,5 +115,5 @@ O que é um Maven Goal?
         
         Contudo é importante referir que por vezes há goals que nao precisam de estar associados a uma build phase (podem ser corridos através de command line)
 
-Qual a sequência de evocação dos Maven Goals?
+## Qual a sequência de evocação dos Maven Goals?
         Quando corremos uma Phase todos os goals associados a esta são executados em ordem, sequencialmente e de forma fixa

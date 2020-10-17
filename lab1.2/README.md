@@ -1,10 +1,10 @@
-IES_Lab1.2 - Git
+# IES_Lab1.2 - Git
 
 Na pasta, MyWeatherRadar encontra-se o projeto do lab1.1 complementado com os exercícios do lab1.2.
 No repositorio GitHub https://github.com/DanielGomes14/IES_Lab1.git, inicialmente foi apenas utilizado para a elaboração do lab1.2 pelo que lab1-2.log contém apenas essas operações de git, 
 contudo todas as alterações posteriores apenas tiveram em vista colocar todo o trabalho efetuado no lab1 no rep.
 
-Fluxo de trabalho em Git:
+## Fluxo de trabalho em Git:
 
     Criar um repositório Remoto (GitHub, no meu caso)
     Initialize repo, ignorar pasta "/target" e fazer push das alterações:
@@ -33,5 +33,7 @@ Comandos fundamentais associados a branches que nos auxiliaram( `branch-name` co
         $ git status
     Fazer push das alterações para a branch remota :
         $ git push -u origin branch-name
+
 O ficheiro lab1-2.log contém o registo das operações git realizadas até ao fim das 2 features, esse ficheiro foi criado utilizando o seguinte comando:
+
         $ git log --graph --oneline --decorate> lab1-2.log

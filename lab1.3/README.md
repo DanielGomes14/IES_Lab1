@@ -1,4 +1,4 @@
-IES_Lab1.3 - Introdução ao Docker
+# IES_Lab1.3 - Introdução ao Docker
 
 Instalação do Docker :
     Tutorial em  https://docs.docker.com/engine/install/
@@ -13,7 +13,8 @@ Instalação do Docker :
         $sudo gpasswd -a $USER docker
 
 
-Build and run your image:
+## Build and run your image:
+
     Info em https://docs.docker.com/get-started/part2/
     Introdução:
         "Now that you’ve set up your development environment, you can begin to develop containerized applications. In general, the development workflow looks like this:
@@ -47,7 +48,7 @@ Build and run your image:
         Eliminar container:
             docker rm --force bb
 
-Alguns comandos do Docker úteis:
+## Alguns comandos do Docker úteis:
 
     Executar uma Docker Image(já visto antes):
         $docker image run image-name
@@ -62,32 +63,42 @@ Alguns comandos do Docker úteis:
     https://stackoverflow.com/questions/45254677/is-there-a-difference-between-docker-ps-and-docker-container-ls
 
 
-Portainer com Docker:
+## Portainer com Docker:
+
     Info em https://www.portainer.io/installation/
     Fazer deployment de um servidor Portainer num standalone host(Linux):
+
         $docker volume create portainer_data
         $docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
 
-Dockerize PostgreSQL:
+## Dockerize PostgreSQL:
+
     Info em https://docs.docker.com/engine/examples/postgresql_service/
     Criar DockerFile (encontra-se dentro da pasta "post")
     Fazer build da imagem da dockerfile e atribuir um nome:
         (no meu caso deu erro de instalação por causa de umas keys, contudo voltei a correr o comando mais 2 vezes e funcionou)
         $docker build -t eg_postgresql .
         "Note: The --rm removes the container and its image when the container exits successfully."
+    Correr Container:
+        $docker run --rm -P --name pg_test eg_postgresql
     Fazer Container Linking:
         $docker run --rm -t -i --link pg_test:pg eg_postgresql bash
         postgres@7ef98b1b7243:/$ psql -h $PG_PORT_5432_TCP_ADDR -p $PG_PORT_5432_TCP_PORT -d docker -U docker --password
     Conectar:
         $psql -h localhost -p 49153 -d docker -U docker --password
     Testar DB
+    Para conseguir persistir os dados da base de dados, teríamos de criar um volume e fazer link a esta imagem, usar docker-compose por exemplo. Também o podemos fazer recorrendo ao portainer,que o faz automaticamente.
 
-Docker Composer:
+## Docker Composer:
     Todo o projeto seguido do tutorial da pagina https://docs.docker.com/compose/gettingstarted/ encontra-se na pasta composte-test.
     Necessário instalar o docker composer:
+
         $sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         $sudo chmod +x /usr/local/bin/docker-compose
 
 
-Qual a relevância do commando docker container ls --all?
+## Qual a relevância do commando docker container ls --all?
     Permite mostrar todos os containers docker criados, assim como os seu ID, data de criação, data de paragem do container, e nome associado. 
+
+## Qual a relevância de configurar “volumes” quando se pretende preparar um container para servir uma base de dados?
+    Configurando volumes conseguimos fazer persistir os dados na DB, mesmo que apaguemos o container. Assim, permitimos que seja mais seguro fazer reboots do sistema, pois os dados irão se manter.
