@@ -14,8 +14,8 @@ Instalação do Docker :
 
 
 ## Build and run your image:
+Info em https://docs.docker.com/get-started/part2/
 
-    Info em https://docs.docker.com/get-started/part2/
     Introdução:
         "Now that you’ve set up your development environment, you can begin to develop containerized applications. In general, the development workflow looks like this:
 
@@ -28,9 +28,11 @@ Instalação do Docker :
 
     Definir um container com Dockerfile:
         Fazer clone do rep node-bulletin-board do GitHub:
+
             $git clone https://github.com/dockersamples/node-bulletin-board
             $cd node-bulletin-board/bulletin-board-app   
         DockerFile:
+
             "Dockerfiles describe how to assemble a private filesystem for a container, and can also contain some metadata describing how to run a container based on this image", funcionam como dependências para conseguirmos fazer build e correr esta app
 
         Fazer Build da Imagem:
@@ -75,27 +77,52 @@ Instalação do Docker :
 
     Info em https://docs.docker.com/engine/examples/postgresql_service/
     Criar DockerFile (encontra-se dentro da pasta "post")
+    
     Fazer build da imagem da dockerfile e atribuir um nome:
+
         (no meu caso deu erro de instalação por causa de umas keys, contudo voltei a correr o comando mais 2 vezes e funcionou)
         $docker build -t eg_postgresql .
         "Note: The --rm removes the container and its image when the container exits successfully."
+
     Correr Container:
+
         $docker run --rm -P --name pg_test eg_postgresql
     Fazer Container Linking:
+
         $docker run --rm -t -i --link pg_test:pg eg_postgresql bash
         postgres@7ef98b1b7243:/$ psql -h $PG_PORT_5432_TCP_ADDR -p $PG_PORT_5432_TCP_PORT -d docker -U docker --password
+
     Conectar:
+
         $psql -h localhost -p 49153 -d docker -U docker --password
     Testar DB
-    Para conseguir persistir os dados da base de dados, teríamos de criar um volume e fazer link a esta imagem, usar docker-compose por exemplo. Também o podemos fazer recorrendo ao portainer,que o faz automaticamente.
 
-## Docker Composer:
-    Todo o projeto seguido do tutorial da pagina https://docs.docker.com/compose/gettingstarted/ encontra-se na pasta composte-test.
-    Necessário instalar o docker composer:
+Para conseguir persistir os dados da base de dados, teríamos de criar um volume e fazer link a esta imagem, usar `docker-compose` por exemplo. Também o podemos fazer recorrendo ao portainer,que o faz automaticamente. Uma outra opção para utilizar volumes será, seguindo a configuração atual da dockerfile existente, recorrer à flag `-v`, ao correr o container:
+    
+    $ docker run --rm -v pgdata:/var/lib/postgresql/9.3/main -P --name pg_test eg_postgresql
+
+
+
+## Docker Compose:
+Todo o projeto seguido do tutorial da pagina https://docs.docker.com/compose/gettingstarted/ encontra-se na pasta composte-test. Basicamente com o docker compose podemos facilmente fazer build e correr uma stack de múltiplos containers, pelo que se todos os componentes correrem corretamente num container, conseguimos descrever toda a app como uma compose file.
+Necessário instalar o docker composer:
 
         $sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         $sudo chmod +x /usr/local/bin/docker-compose
 
+### Comandos relevantes do Docker Compose:
+
+    Começar aplicação:
+    $ docker-compose up
+
+    Começar aplicação em detached mode:
+    $ docker-compose up -d
+
+    Parar todos os serviços:
+    $ docker-compose stop
+
+    Remover todos os containers e até a data dos volumes:
+    $ docker-compose down --volumes
 
 ## Qual a relevância do commando docker container ls --all?
 Permite mostrar todos os containers docker criados, assim como os seu ID, data de criação, data de paragem do container, e nome associado. 
