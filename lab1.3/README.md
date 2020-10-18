@@ -37,8 +37,8 @@ Info em https://docs.docker.com/get-started/part2/
 
         Fazer Build da Imagem:
             $docker build --tag bulletinboard:1.0 .
-        Correr a Imagem como um Container:
-
+        Correr a Imagem como um Container (uma instância de uma imagem basicamente é um container) :
+        
             $docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
             "--publish asks Docker to forward traffic incoming on the host’s port 8000 to the container’s port 8080. Containers have their own private set of ports, so if you want to reach one from the network, you have to forward traffic to it in this way. Otherwise, firewall rules will prevent all network traffic from reaching your container, as a default security posture.
             --detach asks Docker to run this container in the background.
@@ -53,7 +53,15 @@ Info em https://docs.docker.com/get-started/part2/
 ## Alguns comandos do Docker úteis:
 
     Executar uma Docker Image(já visto antes):
-        $docker image run image-name
+        $docker run image-name
+    Remove imagem :
+        $docker image rm image-id
+    Remover todas as imagens:
+        $docker image rm $(docker image ls -a -q)
+    Remover container:
+        #docker container rm container-name
+    Parar container:
+        $docker container stop container-name
     Listar comandos:
         $docker --help
     Listar imagens :
